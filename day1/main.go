@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	f, err := os.Open("day1/test.txt")
+	f, err := os.Open("day1/input.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -24,23 +24,22 @@ func main() {
 
 	for scanner.Scan() {
 		var line = scanner.Text()
-		fmt.Println("current max: ", currentMaxCalories)
-		if line == "" {
-			fmt.Println("found newline, resetting currentMaxCalories")
-			elves = append(elves, currentMaxCalories)
-			currentMaxCalories = 0
-		} else {
+		if line != "" {
 			next, _ := strconv.Atoi(line)
-			fmt.Println("scanned value: ", next)
 			currentMaxCalories += next
+			continue
 		}
+		elves = append(elves, currentMaxCalories)
+		currentMaxCalories = 0
 	}
 
-	fmt.Println(elves)
-	sort.Ints(elves)
-	fmt.Println(elves)
+	// add the last one manually
+	elves = append(elves, currentMaxCalories)
 
-	fmt.Println(elves[len(elves)-1])
+	sort.Ints(elves)
+
+	// add up the top 3 elves
+	fmt.Println(elves[len(elves)-1] + elves[len(elves)-2] + elves[len(elves)-3])
 
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
