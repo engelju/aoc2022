@@ -2,8 +2,10 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"os"
+	"sort"
 	"strconv"
 )
 
@@ -17,25 +19,28 @@ func main() {
 	scanner := bufio.NewScanner(f)
 	scanner.Split(bufio.ScanLines)
 
-	var currentMaxCalories int64
-	var overallMaxCalories int64
+	var currentMaxCalories int
+	var elves []int
 
 	for scanner.Scan() {
-		println("current max: ", currentMaxCalories)
-		var scannedText = scanner.Text()
-		if scannedText == "" {
-			println("found newline, resetting currentMaxCalories")
-			if currentMaxCalories > overallMaxCalories {
-				overallMaxCalories = currentMaxCalories
-			}
+		var line = scanner.Text()
+		fmt.Println("current max: ", currentMaxCalories)
+		if line == "" {
+			fmt.Println("found newline, resetting currentMaxCalories")
+			elves = append(elves, currentMaxCalories)
 			currentMaxCalories = 0
 		} else {
-			next, _ := strconv.ParseInt(scannedText, 0, 64)
-			println("scanned value: ", next)
+			next, _ := strconv.Atoi(line)
+			fmt.Println("scanned value: ", next)
 			currentMaxCalories += next
 		}
-		println("biggest max: ", overallMaxCalories)
 	}
+
+	fmt.Println(elves)
+	sort.Ints(elves)
+	fmt.Println(elves)
+
+	fmt.Println(elves[len(elves)-1])
 
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
