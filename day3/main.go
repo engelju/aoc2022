@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	f, err := os.Open("day3/test.txt")
+	f, err := os.Open("day3/input.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -28,19 +28,11 @@ func main() {
 		fmt.Printf("Compartment 1: %s and Compartment 2: %s\n", compartment1, compartment2)
 
 		var commonLetters = compareCompartments(compartment1, compartment2)
-		fmt.Printf("Common letters in both compartments:")
-		for _, letter := range commonLetters {
-			fmt.Print(letter)
+		for letter := range commonLetters {
+			fmt.Printf("Priority of common letter: %s is: %d\n", letter, commonLetters[letter])
+			totalPriorities += commonLetters[letter]
 		}
 		fmt.Printf("\n")
-
-		//var opponentHand = string(line[0])
-		//var ownHand = string(line[2])
-		//fmt.Printf("Opponent: %s vs Own: %s\n", opponentHand, ownHand)
-
-		//score := getScoreForRound(opponentHand, ownHand)
-		//fmt.Printf("Score: %d\n", score)
-		//totalPriorities += score
 	}
 	fmt.Printf("Total score: %d\n", totalPriorities)
 
@@ -49,33 +41,51 @@ func main() {
 	}
 }
 
-func compareCompartments(string1, string2 string) []string {
+func compareCompartments(string1, string2 string) map[string]int {
 
-	var commonLetters []string
-
-	//var map_1 map[string]bool
-
-	//visitedURL := map[string]bool{
-	//	"http://www.google.com": true,
-	//	"https://paypal.com":    true,
-	//}
-	//
-	//if visitedURL[thisSite] {
-	//	fmt.Println("Already been here.")
-	//}
+	commonLetters := make(map[string]int)
 
 	for i := 0; i < len(string1); i++ {
 		for j := 0; j < len(string2); j++ {
 			char1 := string(string1[i])
 			char2 := string(string2[j])
 			if char1 == char2 {
-				//map_1[char2] = true
-
-				commonLetters = append(commonLetters, char2)
+				commonLetters[char2] = calculatePriority(char2)
 				continue
 			}
 		}
 	}
 
+	//var allCommonLetters []string
+	//for k := range commonLetters {
+	//	v := commonLetters[k]
+	//	allCommonLetters = append(allCommonLetters, k)
+	//}
+
 	return commonLetters
+}
+
+func calculatePriority(charAsString string) int {
+	//lowercaseItems := make(map[string]int)
+	//for i := 1; i < 27; i++ {
+	//	key := rune(i)
+	//	lowercaseItems[string(key)] = i
+	//}
+	//
+	//for k, v := range lowercaseItems {
+	//	fmt.Printf("key: %s has value: %d\n", k, v)
+	//}
+	//
+	//for i := 1, j := 'a', len(runes)-1; i < j; i, j = i+1, j-1 {
+	//
+	//}
+
+	runeArray := []rune(charAsString)
+	char := runeArray[0]
+	if char >= 'a' && char <= 'z' {
+		return int(char - 96)
+	} else if char >= 'A' && char <= 'Z' {
+		return int(char - 64 + 26)
+	}
+	return 0
 }
