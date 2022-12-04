@@ -56,30 +56,10 @@ func compareCompartments(string1, string2 string) map[string]int {
 		}
 	}
 
-	//var allCommonLetters []string
-	//for k := range commonLetters {
-	//	v := commonLetters[k]
-	//	allCommonLetters = append(allCommonLetters, k)
-	//}
-
 	return commonLetters
 }
 
 func calculatePriority(charAsString string) int {
-	//lowercaseItems := make(map[string]int)
-	//for i := 1; i < 27; i++ {
-	//	key := rune(i)
-	//	lowercaseItems[string(key)] = i
-	//}
-	//
-	//for k, v := range lowercaseItems {
-	//	fmt.Printf("key: %s has value: %d\n", k, v)
-	//}
-	//
-	//for i := 1, j := 'a', len(runes)-1; i < j; i, j = i+1, j-1 {
-	//
-	//}
-
 	runeArray := []rune(charAsString)
 	char := runeArray[0]
 	if char >= 'a' && char <= 'z' {
