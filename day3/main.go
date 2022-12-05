@@ -18,21 +18,23 @@ func main() {
 	scanner.Split(bufio.ScanLines)
 
 	var totalPriorities int
+	var counter int
+	var triplet [3]string
 
 	for scanner.Scan() {
 		var line = scanner.Text()
 
-		split := len(line) / 2
-		compartment1 := line[:split]
-		compartment2 := line[split:]
-		fmt.Printf("Compartment 1: %s and Compartment 2: %s\n", compartment1, compartment2)
+		triplet[counter] = line
+		counter++
 
-		var commonLetters = compareCompartments(compartment1, compartment2)
-		for letter := range commonLetters {
-			fmt.Printf("Priority of common letter: %s is: %d\n", letter, commonLetters[letter])
-			totalPriorities += commonLetters[letter]
+		if counter == 3 {
+			var commonLetters = compareCompartments(triplet[0], triplet[1], triplet[2])
+			for letter := range commonLetters {
+				fmt.Printf("Priority of common letter: %s is: %d\n", letter, commonLetters[letter])
+				totalPriorities += commonLetters[letter]
+			}
+			counter = 0
 		}
-		fmt.Printf("\n")
 	}
 	fmt.Printf("Total score: %d\n", totalPriorities)
 
@@ -41,17 +43,20 @@ func main() {
 	}
 }
 
-func compareCompartments(string1, string2 string) map[string]int {
+func compareCompartments(string1, string2, string3 string) map[string]int {
 
 	commonLetters := make(map[string]int)
 
 	for i := 0; i < len(string1); i++ {
 		for j := 0; j < len(string2); j++ {
-			char1 := string(string1[i])
-			char2 := string(string2[j])
-			if char1 == char2 {
-				commonLetters[char2] = calculatePriority(char2)
-				continue
+			for k := 0; k < len(string3); k++ {
+				char1 := string(string1[i])
+				char2 := string(string2[j])
+				char3 := string(string3[k])
+				if (char1 == char2) && (char1 == char3) {
+					commonLetters[char3] = calculatePriority(char3)
+					continue
+				}
 			}
 		}
 	}
