@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	f, err := os.Open("day4/input.txt")
+	f, err := os.Open("day4/test.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -42,7 +42,7 @@ func main() {
 		// check if elf2 is contained in elf1
 		lowest := elf1[0]
 		highest := elf1[1]
-		if (elf2[0] >= lowest) && (elf2[1] <= highest) {
+		if elf2[0] >= lowest && elf2[1] <= highest {
 			fmt.Printf("--> Elf1: %d contains Elf2: %d\n", elf1, elf2)
 			totalContainedPairs++
 			continue
