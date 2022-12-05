@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	f, err := os.Open("day4/test.txt")
+	f, err := os.Open("day4/input.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -19,7 +19,7 @@ func main() {
 	scanner := bufio.NewScanner(f)
 	scanner.Split(bufio.ScanLines)
 
-	var totalContainedPairs int
+	var totalOverlappingPairs int
 
 	for scanner.Scan() {
 		var line = scanner.Text()
@@ -40,26 +40,22 @@ func main() {
 		fmt.Printf("Elf 2: %d\n", elf2)
 
 		// check if elf2 is contained in elf1
-		lowest := elf1[0]
-		highest := elf1[1]
-		if elf2[0] >= lowest && elf2[1] <= highest {
+		if elf2[0] >= elf1[0] && elf2[0] <= elf1[1] {
 			fmt.Printf("--> Elf1: %d contains Elf2: %d\n", elf1, elf2)
-			totalContainedPairs++
+			totalOverlappingPairs++
 			continue
 		}
 
 		// check if elf1 is contained in elf2
-		lowest = elf2[0]
-		highest = elf2[1]
-		if elf1[0] >= lowest && elf1[1] <= highest {
+		if elf1[0] >= elf2[0] && elf1[0] <= elf2[1] {
 			fmt.Printf("--> Elf2: %d contains Elf1: %d\n", elf2, elf1)
-			totalContainedPairs++
+			totalOverlappingPairs++
 			continue
 		}
 
 		fmt.Println("---")
 	}
-	fmt.Printf("Total contained pairs: %d\n", totalContainedPairs)
+	fmt.Printf("Total overlapping pairs: %d\n", totalOverlappingPairs)
 
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
