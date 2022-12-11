@@ -25,7 +25,7 @@ func main() {
 
 	for scanner.Scan() {
 		var line = scanner.Text()
-		fmt.Printf("Line: %s\n", line)
+		//fmt.Printf("Line: %s\n", line)
 
 		if line == "" {
 			continue
@@ -88,12 +88,9 @@ func reverseStack(oldStack []string) []string {
 }
 
 func move(fromStack []string, toStack []string, howMany int) ([]string, []string) {
-	for howMany > 0 {
-		topElemIdx := len(fromStack) - 1
-		toStack = append(toStack, fromStack[topElemIdx])
-		fromStack = fromStack[:topElemIdx]
-		howMany--
-	}
-
+	from := len(fromStack) - (howMany)
+	to := len(fromStack)
+	toStack = append(toStack, fromStack[from:to]...)
+	fromStack = append(fromStack[:from], fromStack[to:]...)
 	return fromStack, toStack
 }
