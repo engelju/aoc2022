@@ -8,7 +8,33 @@ import (
 )
 
 func main() {
-	f, err := os.Open("day6/test.txt")
+	for _, line := range readFromFile("input.txt") {
+		var characters []string
+		fmt.Printf("Line: %s\n", line)
+		for i := 0; i < len(line); i++ {
+			// fmt.Printf("Character at %d Index Position = %c\n", i, line[i])
+
+			if len(characters) < 4 {
+				characters = append(characters, string(line[i]))
+			} else if len(characters) == 4 {
+				if charsAreDifferent(characters) {
+					fmt.Printf("Found four different characters: %s\n", characters)
+					fmt.Printf("Index: %d\n", i)
+					break
+				} else {
+					characters = characters[1:]
+					characters = append(characters, string(line[i]))
+				}
+			}
+			// fmt.Printf("characters: %s\n\n", characters)
+		}
+	}
+}
+
+func readFromFile(filename string) []string {
+	var lines []string
+
+	f, err := os.Open(filename)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -17,33 +43,11 @@ func main() {
 	scanner := bufio.NewScanner(f)
 	scanner.Split(bufio.ScanLines)
 
-	//var min_marker = 0
-	var maxMarker = 4
-	var marker = make([]string, 4)
-
 	for scanner.Scan() {
-		var line = scanner.Text()
-		//fmt.Printf("Line: %s\n", line)
-
-		for i := 0; i < len(line); i++ {
-			fmt.Printf("Character at %d Index Position = %c\n", i, line[i])
-			if i < maxMarker {
-				if contains(marker, string(line[i])) {
-					fmt.Printf("already contained, shifting window\n")
-					marker =
-				} else {
-					marker = append(marker, string(line[i]))
-				}
-			} else {
-				fmt.Printf("markers: %s\n", marker)
-				break
-			}
-		}
+		lines = append(lines, scanner.Text())
 	}
 
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
-	}
+	return lines
 }
 
 func contains(s []string, e string) bool {
@@ -53,4 +57,17 @@ func contains(s []string, e string) bool {
 		}
 	}
 	return false
+}
+
+func charsAreDifferent(characters []string) bool {
+	var allDifferent = true
+	for i := 0; i < len(characters); i++ {
+		for j := i + 1; j < len(characters); j++ {
+			if characters[i] == characters[j] {
+				// fmt.Printf("Characters %s and %s are the same\n", characters[i], characters[j])
+				allDifferent = false
+			}
+		}
+	}
+	return allDifferent
 }
