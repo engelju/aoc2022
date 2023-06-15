@@ -50,15 +50,6 @@ func readFromFile(filename string) []string {
 	return lines
 }
 
-func contains(s []string, e string) bool {
-	for _, a := range s {
-		if a == e {
-			return true
-		}
-	}
-	return false
-}
-
 func charsAreDifferent(characters []string) bool {
 	var allDifferent = true
 	for i := 0; i < len(characters); i++ {
