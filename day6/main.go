@@ -13,12 +13,11 @@ func main() {
 		fmt.Printf("Line: %s\n", line)
 		for i := 0; i < len(line); i++ {
 			// fmt.Printf("Character at %d Index Position = %c\n", i, line[i])
-
-			if len(characters) < 4 {
+			if len(characters) < 14 {
 				characters = append(characters, string(line[i]))
-			} else if len(characters) == 4 {
+			} else if len(characters) == 14 {
 				if charsAreDifferent(characters) {
-					fmt.Printf("Found four different characters: %s\n", characters)
+					fmt.Printf("Found fourteen different characters: %s\n", characters)
 					fmt.Printf("Index: %d\n", i)
 					break
 				} else {
